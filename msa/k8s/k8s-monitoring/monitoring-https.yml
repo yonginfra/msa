@@ -11,5 +11,5 @@ spec:
     name: my-issuer
     kind: ClusterIssuer
   dnsNames:
-  - monitoring.syong.store
+  - prometheus.syong.store
   - grafana.syong.store

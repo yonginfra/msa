@@ -10,11 +10,11 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - monitoring.syong.store
+    - prometheus.syong.store
     - grafana.syong.store
     secretName: monitoring-syong-store-tls
   rules:
-  - host: monitoring.syong.store
+  - host: prometheus.syong.store
     http:
       paths:
       - path: /
