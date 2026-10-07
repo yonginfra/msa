@@ -163,3 +163,23 @@ jobs:
         run: |
           kubectl apply -f ./msa/product/k8s/depl_svc.yml
           kubectl rollout restart deployment product-depl -n soldesk
+
+
+      # Frontend 빌드
+      - name: frontend build and push docker image to ecr
+        if: steps.changes.outputs.frontend == 'true'
+        env:
+          REGISTRY: 143710973003.dkr.ecr.ap-northeast-2.amazonaws.com
+          REPOSITORY: frontend-service
+          IMAGE_TAG: latest
+        run: |
+          docker build \
+            -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+            -f ./msa/frontend/Dockerfile ./msa/frontend
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+      - name: deploy frontend
+        if: steps.changes.outputs.frontend == 'true'
+        run: |
+          kubectl apply -f ./msa/frontend/k8s/depl_svc.yml
+          kubectl rollout restart deployment frontend-depl -n soldesk
